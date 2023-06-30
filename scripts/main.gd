@@ -5,23 +5,30 @@ extends Control
 @onready var cur_song_playing = $CurSongPlaying
 @onready var song_audio = $SongAudio
 @onready var duration_label = $LilLine/Duration
+@onready var volume = $LilLine/Volume
+@onready var loop = $LilLine/Loop
 var prev_scroll_value
 
 var all_songs:Array
 var song_selected
+var last_song_pos := 0
 
 func _ready():
 	prev_scroll_value = v_scroll_bar.value
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Songs"), volume.value)
 	list_files_in_songs_folder()
 	load_song_buttons()
 
 func _process(delta):
 	if song_selected != null:
-		duration_label.text = str(round(song_audio.get_playback_position()))
-		AudioStreamPlayer
+		if song_audio.playing:
+			duration_label.text = str(round(song_audio.get_playback_position()),"s/",round(song_audio.stream.get_length()),"s")
+		else:
+			duration_label.text = str(round(last_song_pos),"s/",round(song_audio.stream.get_length()),"s")
 
 func change_song_selected(song):
 	if song != null:
+		last_song_pos = 0
 		song_selected = song
 		cur_song_playing.text = song.song_name.replace(".mp3","")
 		var file := FileAccess.open(song.song_path,FileAccess.READ)
@@ -29,6 +36,7 @@ func change_song_selected(song):
 		var stream := AudioStreamMP3.new()
 		stream.data = data
 		song_audio.set_stream(stream)
+		loop.button_pressed = false
 
 func load_song_buttons():
 	for i in songs.get_children():
@@ -73,4 +81,20 @@ func _on_v_scroll_bar_value_changed(value):
 	prev_scroll_value = value
 
 func _on_play_button_up():
-	song_audio.play()
+	song_audio.play(last_song_pos)
+
+func _on_play_2_button_up():
+	last_song_pos = song_audio.get_playback_position()
+	song_audio.stop()
+
+func _on_volume_value_changed(value):
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Songs"), value)
+
+func _on_plus_ten_button_up():
+	song_audio.play(song_audio.get_playback_position() + 5)
+
+func _on_minus_ten_button_up():
+	song_audio.play(song_audio.get_playback_position() - 5)
+
+func _on_loop_toggled(button_pressed):
+	song_audio.stream.loop = button_pressed
