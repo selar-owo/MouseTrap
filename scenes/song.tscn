@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsn7txa8s7k7a"]
+
+[ext_resource type="Script" path="res://scripts/song.gd" id="1_6sr2h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kqlvo"]
+font_color = Color(0.443137, 0.443137, 0.443137, 1)
+
+[node name="Song" type="Button"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -34.0
+offset_right = -12.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6sr2h")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 787.0
+offset_bottom = 31.0
+text = "SongName"
+text_overrun_behavior = 3
+
+[node name="Id" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -31.0
+offset_right = 787.0
+offset_bottom = -5.0
+grow_vertical = 0
+text = "999999999999"
+label_settings = SubResource("LabelSettings_kqlvo")
+text_overrun_behavior = 3
+
+[node name="Duration" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "123s / 400s"
+horizontal_alignment = 2
+text_overrun_behavior = 3
