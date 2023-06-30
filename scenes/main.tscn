@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://drigutidra2pi"]
+[gd_scene load_steps=6 format=3 uid="uid://drigutidra2pi"]
 
 [ext_resource type="Texture2D" uid="uid://b3b8khk4nq8a7" path="res://sprites/Rattos.webp" id="1_3uhlj"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_5xl2k"]
+[ext_resource type="PackedScene" uid="uid://dsn7txa8s7k7a" path="res://scenes/song.tscn" id="2_savgk"]
+[ext_resource type="AudioStream" uid="uid://c6325pqh5g5ek" path="res://sounds/y2mate.com - Main Menu  Mario Kart Wii.mp3" id="4_sfbnh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ecqaw"]
 font_size = 40
@@ -12,7 +15,63 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_5xl2k")
 metadata/_edit_lock_ = true
+
+[node name="Songs" type="Control" parent="."]
+clip_children = 1
+anchors_preset = 0
+offset_top = 116.0
+offset_right = 1024.0
+offset_bottom = 600.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Song" parent="Songs" instance=ExtResource("2_savgk")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+
+[node name="LilLine" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.183
+anchor_right = 1.022
+anchor_bottom = 0.193
+offset_left = -23.0
+offset_top = -138.8
+offset_right = 0.472046
+offset_bottom = 0.200005
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Duration" type="Label" parent="LilLine"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -234.0
+offset_top = 108.0
+offset_right = -39.0
+offset_bottom = 134.0
+grow_horizontal = 0
+text = "123s / 400s"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="Play" type="Button" parent="LilLine"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -323.0
+offset_top = 108.0
+offset_right = -237.0
+offset_bottom = 133.0
+grow_horizontal = 0
+focus_mode = 0
+text = "play"
 
 [node name="CurSongPlaying" type="Label" parent="."]
 layout_mode = 1
@@ -37,15 +96,16 @@ offset_right = 228.0
 offset_bottom = 69.0
 texture = ExtResource("1_3uhlj")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.183
-anchor_right = 1.022
-anchor_bottom = 0.193
-offset_left = -23.0
-offset_top = 0.199989
-offset_right = 0.471924
-offset_bottom = 0.199997
-grow_horizontal = 2
-grow_vertical = 2
+[node name="VScrollBar" type="VScrollBar" parent="."]
+layout_mode = 0
+offset_left = 1007.0
+offset_top = 123.0
+offset_right = 1015.0
+offset_bottom = 591.0
+max_value = 1000.0
+
+[node name="SongAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_sfbnh")
+
+[connection signal="button_up" from="LilLine/Play" to="." method="_on_play_button_up"]
+[connection signal="value_changed" from="VScrollBar" to="." method="_on_v_scroll_bar_value_changed"]
