@@ -95,6 +95,19 @@ grow_horizontal = 0
 focus_mode = 0
 text = "stop"
 
+[node name="Refresh" type="Button" parent="LilLine"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -495.0
+offset_top = 108.0
+offset_right = -403.0
+offset_bottom = 139.0
+grow_horizontal = 0
+focus_mode = 0
+text = "refresh list"
+
 [node name="Volume" type="VSlider" parent="LilLine"]
 layout_mode = 1
 anchors_preset = 1
@@ -195,6 +208,7 @@ bus = &"Songs"
 
 [connection signal="button_down" from="LilLine/Play" to="." method="_on_play_button_down"]
 [connection signal="button_down" from="LilLine/Stop" to="." method="_on_stop_button_down"]
+[connection signal="button_up" from="LilLine/Refresh" to="." method="_on_refresh_button_up"]
 [connection signal="value_changed" from="LilLine/Volume" to="." method="_on_volume_value_changed"]
 [connection signal="button_up" from="LilLine/PlusTen" to="." method="_on_plus_ten_button_up"]
 [connection signal="button_up" from="LilLine/MinusTen" to="." method="_on_minus_ten_button_up"]

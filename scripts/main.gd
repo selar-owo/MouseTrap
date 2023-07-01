@@ -42,12 +42,17 @@ func change_song_selected(song):
 		last_song_pos = 0
 		song_selected = song
 		cur_song_playing.text = song.song_name.replace(".mp3","")
-		var file := FileAccess.open(song.song_path,FileAccess.READ)
-		var data = file.get_buffer(file.get_length())
-		var stream := AudioStreamMP3.new()
-		stream.data = data
-		song_audio.set_stream(stream)
-		loop.button_pressed = false
+		if FileAccess.file_exists(song.song_path):
+			var file := FileAccess.open(song.song_path,FileAccess.READ)
+			var data = file.get_buffer(file.get_length())
+			var stream := AudioStreamMP3.new()
+			stream.data = data
+			song_audio.set_stream(stream)
+			loop.button_pressed = false
+		else:
+			list_files_in_songs_folder()
+			load_song_buttons()
+			cur_song_playing.text = "Song file deleted!"
 
 func load_song_buttons():
 	for i in songs.get_children():
@@ -107,3 +112,7 @@ func _on_stop_button_down():
 
 func _on_play_button_down():
 	song_audio.play(last_song_pos)
+
+func _on_refresh_button_up():
+	list_files_in_songs_folder()
+	load_song_buttons()
