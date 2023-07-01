@@ -12,6 +12,7 @@ func _ready():
 		config.save(save_path)
 		var dir_access = DirAccess.open("user://")
 		dir_access.make_dir("songs")
+		dir_access.make_dir("images")
 		print('arse')
 
 func save_cfg(section,key,value):

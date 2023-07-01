@@ -10,14 +10,17 @@ extends Control
 @onready var play = $LilLine/Play
 @onready var stop = $LilLine/Stop
 @onready var progress = $LilLine/Progress
+@onready var logo = $Logo
 var prev_scroll_value
 
 var all_songs:Array
 var song_selected
 var last_song_pos := 0.0
+var song_played := false
 
 func _ready():
 	prev_scroll_value = v_scroll_bar.value
+	logo.pivot_offset = logo.size / 2
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Songs"), volume.value)
 	list_files_in_songs_folder()
 	load_song_buttons()
@@ -28,7 +31,7 @@ func _process(delta):
 			duration_label.text = str(Globals.seconds2hhmmss(song_audio.get_playback_position())," / ",Globals.seconds2hhmmss(song_audio.stream.get_length()))
 		else:
 			duration_label.text = str(Globals.seconds2hhmmss(last_song_pos)," / ",Globals.seconds2hhmmss(song_audio.stream.get_length()))
-		
+		logo.scale = Vector2(1 + AudioServer.get_bus_effect_instance(1, 0).get_magnitude_for_frequency_range(0, 10000).length(),1 + AudioServer.get_bus_effect_instance(1, 0).get_magnitude_for_frequency_range(0, 10000).length())
 		play.visible = !song_audio.playing
 		stop.visible = song_audio.playing
 		progress.max_value = song_audio.stream.get_length()
@@ -41,6 +44,10 @@ func change_song_selected(song):
 	if song != null:
 		last_song_pos = 0
 		song_selected = song
+		for i in songs.get_children():
+			i.selected = false
+		song.selected = true
+		song_played = false
 		cur_song_playing.text = song.song_name.replace(".mp3","")
 		if FileAccess.file_exists(song.song_path):
 			var file := FileAccess.open(song.song_path,FileAccess.READ)
@@ -64,6 +71,7 @@ func load_song_buttons():
 		button.song_name = FindSongs.load_cfg(i,"name")
 		button.id = FindSongs.load_cfg(i,"id")
 		button.song_path = FindSongs.load_cfg(i,"path")
+		button.true_name = i
 		songs.add_child(button)
 		button.position = Vector2(5,pos_y)
 		pos_y += 75
@@ -84,6 +92,8 @@ func list_files_in_songs_folder():
 				FindSongs.save_cfg(file.get_file(),"id",randi_range(0,999999999999))
 				FindSongs.save_cfg(file.get_file(),"name",file)
 				FindSongs.save_cfg(file.get_file(),"path",str("user://songs/",file.get_file()))
+				FindSongs.save_cfg(file.get_file(),"image_path","null")
+				FindSongs.save_cfg(file.get_file(),"amount_played",0)
 	
 	dir.list_dir_end()
 	
@@ -98,10 +108,20 @@ func _on_volume_value_changed(value):
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Songs"), value)
 
 func _on_plus_ten_button_up():
-	song_audio.play(song_audio.get_playback_position() + 5)
+	if song_audio.playing:
+		song_audio.play(song_audio.get_playback_position() + 5)
+	else:
+		song_audio.play(last_song_pos + 5)
+		last_song_pos = song_audio.get_playback_position()
+		song_audio.stop()
 
 func _on_minus_ten_button_up():
-	song_audio.play(song_audio.get_playback_position() - 5)
+	if song_audio.playing:
+		song_audio.play(song_audio.get_playback_position() - 5)
+	else:
+		song_audio.play(last_song_pos - 5)
+		last_song_pos = song_audio.get_playback_position()
+		song_audio.stop()
 
 func _on_loop_toggled(button_pressed):
 	song_audio.stream.loop = button_pressed
@@ -112,7 +132,13 @@ func _on_stop_button_down():
 
 func _on_play_button_down():
 	song_audio.play(last_song_pos)
+	if !song_played and song_selected != null:
+		FindSongs.save_cfg(song_selected.true_name.get_file(),"amount_played",FindSongs.load_cfg(song_selected.true_name.get_file(),"amount_played") + 1)
+		song_played = true
 
 func _on_refresh_button_up():
 	list_files_in_songs_folder()
 	load_song_buttons()
+
+func _on_song_audio_finished():
+	song_played = false

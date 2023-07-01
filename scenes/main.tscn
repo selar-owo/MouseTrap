@@ -214,3 +214,4 @@ bus = &"Songs"
 [connection signal="button_up" from="LilLine/MinusTen" to="." method="_on_minus_ten_button_up"]
 [connection signal="toggled" from="LilLine/Loop" to="." method="_on_loop_toggled"]
 [connection signal="value_changed" from="VScrollBar" to="." method="_on_v_scroll_bar_value_changed"]
+[connection signal="finished" from="SongAudio" to="." method="_on_song_audio_finished"]

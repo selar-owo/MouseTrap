@@ -44,17 +44,18 @@ text = "999999999999"
 label_settings = SubResource("LabelSettings_kqlvo")
 text_overrun_behavior = 3
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Roundifier" type="Sprite2D" parent="."]
 clip_children = 1
 position = Vector2(965.5, 34)
 scale = Vector2(0.19, 0.193333)
 texture = ExtResource("2_kwr0x")
 
-[node name="Icon" type="TextureRect" parent="Sprite2D"]
+[node name="Icon" type="TextureRect" parent="Roundifier"]
 offset_left = -150.0
 offset_top = -150.0
 offset_right = 150.0
 offset_bottom = 150.0
 texture = ExtResource("2_m4d7i")
+expand_mode = 1
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
