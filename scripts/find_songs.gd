@@ -8,7 +8,7 @@ func _ready():
 	var file = FileAccess.file_exists(save_path)
 	print('arsenot')
 	if !file:
-		config.set_value("Hey!","this is where every song name, id, length and file path is located","if you dont know what you are doing, dont touch anything here!")
+		config.set_value("Hey!","this is where every song name, id, and file path is located","if you dont know what you are doing, dont touch anything here!")
 		config.save(save_path)
 		var dir_access = DirAccess.open("user://")
 		dir_access.make_dir("songs")
