@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://drigutidra2pi"]
 
-[ext_resource type="Texture2D" uid="uid://b3b8khk4nq8a7" path="res://sprites/Rattos.webp" id="1_3uhlj"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_5xl2k"]
 [ext_resource type="PackedScene" uid="uid://dsn7txa8s7k7a" path="res://scenes/song.tscn" id="2_savgk"]
+[ext_resource type="Texture2D" uid="uid://b2ci7tvwd3cty" path="res://sprites/MouseTrapLogo.png" id="3_on4b0"]
 [ext_resource type="AudioStream" uid="uid://c6325pqh5g5ek" path="res://sounds/y2mate.com - Main Menu  Mario Kart Wii.mp3" id="4_sfbnh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ecqaw"]
@@ -190,9 +190,9 @@ text_overrun_behavior = 3
 layout_mode = 1
 offset_left = 15.0
 offset_top = 15.0
-offset_right = 228.0
-offset_bottom = 69.0
-texture = ExtResource("1_3uhlj")
+offset_right = 177.0
+offset_bottom = 99.0
+texture = ExtResource("3_on4b0")
 
 [node name="VScrollBar" type="VScrollBar" parent="."]
 layout_mode = 0
