@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsn7txa8s7k7a"]
+[gd_scene load_steps=5 format=3 uid="uid://dsn7txa8s7k7a"]
 
 [ext_resource type="Script" path="res://scripts/song.gd" id="1_6sr2h"]
+[ext_resource type="Texture2D" uid="uid://bs28oppkt5vl0" path="res://sprites/rounded.png" id="2_kwr0x"]
+[ext_resource type="Texture2D" uid="uid://bg2l7vnxyxeuu" path="res://sprites/PlaceholderIcon.png" id="2_m4d7i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kqlvo"]
 font_color = Color(0.443137, 0.443137, 0.443137, 1)
@@ -41,5 +43,18 @@ grow_vertical = 0
 text = "999999999999"
 label_settings = SubResource("LabelSettings_kqlvo")
 text_overrun_behavior = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+clip_children = 1
+position = Vector2(965.5, 34)
+scale = Vector2(0.19, 0.193333)
+texture = ExtResource("2_kwr0x")
+
+[node name="Icon" type="TextureRect" parent="Sprite2D"]
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+texture = ExtResource("2_m4d7i")
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
