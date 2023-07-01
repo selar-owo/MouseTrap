@@ -7,11 +7,14 @@ extends Control
 @onready var duration_label = $LilLine/Duration
 @onready var volume = $LilLine/Volume
 @onready var loop = $LilLine/Loop
+@onready var play = $LilLine/Play
+@onready var stop = $LilLine/Stop
+@onready var progress = $LilLine/Progress
 var prev_scroll_value
 
 var all_songs:Array
 var song_selected
-var last_song_pos := 0
+var last_song_pos := 0.0
 
 func _ready():
 	prev_scroll_value = v_scroll_bar.value
@@ -22,9 +25,17 @@ func _ready():
 func _process(delta):
 	if song_selected != null:
 		if song_audio.playing:
-			duration_label.text = str(round(song_audio.get_playback_position()),"s/",round(song_audio.stream.get_length()),"s")
+			duration_label.text = str(Globals.seconds2hhmmss(song_audio.get_playback_position())," / ",Globals.seconds2hhmmss(song_audio.stream.get_length()))
 		else:
-			duration_label.text = str(round(last_song_pos),"s/",round(song_audio.stream.get_length()),"s")
+			duration_label.text = str(Globals.seconds2hhmmss(last_song_pos)," / ",Globals.seconds2hhmmss(song_audio.stream.get_length()))
+		
+		play.visible = !song_audio.playing
+		stop.visible = song_audio.playing
+		progress.max_value = song_audio.stream.get_length()
+		if song_audio.playing:
+			progress.value = song_audio.get_playback_position()
+		elif !song_audio.playing:
+			progress.value = last_song_pos
 
 func change_song_selected(song):
 	if song != null:
@@ -47,7 +58,6 @@ func load_song_buttons():
 		var button := preload("res://scenes/song.tscn").instantiate()
 		button.song_name = FindSongs.load_cfg(i,"name")
 		button.id = FindSongs.load_cfg(i,"id")
-		button.song_length = FindSongs.load_cfg(i,"length")
 		button.song_path = FindSongs.load_cfg(i,"path")
 		songs.add_child(button)
 		button.position = Vector2(5,pos_y)
@@ -68,7 +78,6 @@ func list_files_in_songs_folder():
 			if FindSongs.load_cfg(file.get_file(),"id") == null:
 				FindSongs.save_cfg(file.get_file(),"id",randi_range(0,999999999999))
 				FindSongs.save_cfg(file.get_file(),"name",file)
-				FindSongs.save_cfg(file.get_file(),"length",-1.0)
 				FindSongs.save_cfg(file.get_file(),"path",str("user://songs/",file.get_file()))
 	
 	dir.list_dir_end()
@@ -79,13 +88,6 @@ func list_files_in_songs_folder():
 func _on_v_scroll_bar_value_changed(value):
 	songs.position.y += prev_scroll_value - value
 	prev_scroll_value = value
-
-func _on_play_button_up():
-	song_audio.play(last_song_pos)
-
-func _on_play_2_button_up():
-	last_song_pos = song_audio.get_playback_position()
-	song_audio.stop()
 
 func _on_volume_value_changed(value):
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Songs"), value)
@@ -98,3 +100,10 @@ func _on_minus_ten_button_up():
 
 func _on_loop_toggled(button_pressed):
 	song_audio.stream.loop = button_pressed
+
+func _on_stop_button_down():
+	last_song_pos = song_audio.get_playback_position()
+	song_audio.stop()
+
+func _on_play_button_down():
+	song_audio.play(last_song_pos)
