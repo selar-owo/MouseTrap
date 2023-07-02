@@ -12,7 +12,6 @@ extends Control
 @onready var progress = $LilLine/Progress
 @onready var logo = $Logo
 var prev_scroll_value
-
 var all_songs:Array
 var song_selected
 var last_song_pos := 0.0
@@ -48,7 +47,7 @@ func change_song_selected(song):
 			i.selected = false
 		song.selected = true
 		song_played = false
-		cur_song_playing.text = song.song_name.replace(".mp3","")
+		cur_song_playing.text = str(song.song_name)
 		if FileAccess.file_exists(song.song_path):
 			var file := FileAccess.open(song.song_path,FileAccess.READ)
 			var data = file.get_buffer(file.get_length())

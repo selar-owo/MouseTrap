@@ -13,7 +13,9 @@ config_version=5
 config/name="MouseTrap"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+boot_splash/show_image=false
+config/icon="res://sprites/notebackground.png"
 
 [autoload]
 

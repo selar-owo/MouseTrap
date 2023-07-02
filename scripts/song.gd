@@ -6,6 +6,7 @@ extends Button
 @export var song_path := "null"
 @export var icon_image_path := "null"
 var true_name:String
+var blacklistfree_name:String
 var current_duration := "-1"
 var selected := false
 
