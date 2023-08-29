@@ -132,6 +132,9 @@ func _on_stop_button_down():
 func _on_play_button_down():
 	song_audio.play(last_song_pos)
 	if !song_played and song_selected != null:
+		if typeof(FindSongs.load_cfg(song_selected.true_name.get_file(),"amount_played")) == TYPE_STRING:
+			Globals.fail_safe("AMOUNT_PLAYED_IS_STRING")
+			return
 		FindSongs.save_cfg(song_selected.true_name.get_file(),"amount_played",FindSongs.load_cfg(song_selected.true_name.get_file(),"amount_played") + 1)
 		song_played = true
 
