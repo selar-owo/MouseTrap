@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://o3pxsbl4x4v1"]
+
+[ext_resource type="Script" path="res://scenes/right_click_menu.gd" id="1_7s2yn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jwh7l"]
+size = Vector2(153, 112)
+
+[node name="RightClickMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -877.0
+offset_bottom = -494.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7s2yn")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 147.0
+offset_bottom = 106.0
+
+[node name="Rename" type="Button" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 144.0
+offset_bottom = 17.0
+focus_mode = 0
+text = "rename"
+
+[node name="ChangeIcon" type="Button" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 37.0
+offset_right = 144.0
+offset_bottom = 68.0
+focus_mode = 0
+text = "change icon"
+
+[node name="ChangePlaylist" type="Button" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 71.0
+offset_right = 145.0
+offset_bottom = 102.0
+focus_mode = 0
+text = "change folder"
+
+[node name="AreaOfFunny" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaOfFunny"]
+position = Vector2(73.5, 53)
+shape = SubResource("RectangleShape2D_jwh7l")
+
+[connection signal="mouse_entered" from="AreaOfFunny" to="." method="_on_area_of_funny_mouse_entered"]
+[connection signal="mouse_exited" from="AreaOfFunny" to="." method="_on_area_of_funny_mouse_exited"]

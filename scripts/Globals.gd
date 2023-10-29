@@ -1,9 +1,21 @@
 extends Node
 
+var default_icon := preload("res://sprites/RatTrapIcon.png")
 var BLACKLISTED_WORDS := [
 	"y2mate.com - ",
 	".mp3",
 ]
+var hovering := {
+	"name": null,
+	"true_name": null,
+}
+var version_number := {
+	"huge_release": 0,
+	"major_release": 3,
+	"minor_release": 0,
+}
+
+var right_click_allowed := false
 
 func seconds2hhmmss(total_seconds: float) -> String:
 	#total_seconds = 12345

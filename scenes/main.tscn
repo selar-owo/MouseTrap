@@ -1,12 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://drigutidra2pi"]
+[gd_scene load_steps=13 format=3 uid="uid://drigutidra2pi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_5xl2k"]
 [ext_resource type="PackedScene" uid="uid://dsn7txa8s7k7a" path="res://scenes/song.tscn" id="2_savgk"]
-[ext_resource type="Texture2D" uid="uid://b2ci7tvwd3cty" path="res://sprites/MouseTrapLogo.png" id="3_on4b0"]
+[ext_resource type="PackedScene" uid="uid://o3pxsbl4x4v1" path="res://scenes/right_click_menu.tscn" id="3_cqdjq"]
+[ext_resource type="Texture2D" uid="uid://bs28oppkt5vl0" path="res://sprites/rounded.png" id="3_sfoe6"]
 [ext_resource type="AudioStream" uid="uid://c6325pqh5g5ek" path="res://sounds/y2mate.com - Main Menu  Mario Kart Wii.mp3" id="4_sfbnh"]
+[ext_resource type="Texture2D" uid="uid://bwt0jsvcu0mys" path="res://sprites/RatTrapIcon.png" id="4_ya2pm"]
+[ext_resource type="Script" path="res://scripts/RenameMenu.gd" id="5_2hi2p"]
+[ext_resource type="Texture2D" uid="uid://cq0466kr7x2gh" path="res://sprites/logos/RatTrapVertical.png" id="6_4dp0k"]
+[ext_resource type="Script" path="res://scripts/VScrollBar.gd" id="7_qf5vp"]
+[ext_resource type="Script" path="res://scripts/ChangeFolder.gd" id="9_b5t4n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r1tdk"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ecqaw"]
 font_size = 40
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -65,7 +77,43 @@ offset_right = -70.0
 offset_bottom = 134.0
 grow_horizontal = 0
 text = "123s / 400s"
+label_settings = SubResource("LabelSettings_r1tdk")
 horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="CurrentPlaylist" type="Label" parent="LilLine"]
+self_modulate = Color(1, 1, 1, 0.258824)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1040.0
+offset_top = 153.0
+offset_right = -47.0
+offset_bottom = 179.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "current folder: none"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="VersionNumber" type="Label" parent="LilLine"]
+self_modulate = Color(1, 1, 1, 0.258824)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1040.0
+offset_top = 600.0
+offset_right = -47.0
+offset_bottom = 626.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "v0.3.0"
 text_overrun_behavior = 3
 
 [node name="Play" type="Button" parent="LilLine"]
@@ -107,6 +155,20 @@ offset_bottom = 139.0
 grow_horizontal = 0
 focus_mode = 0
 text = "refresh list"
+
+[node name="Back" type="Button" parent="LilLine"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -396.0
+offset_top = 108.0
+offset_right = -228.0
+offset_bottom = 139.0
+grow_horizontal = 0
+focus_mode = 0
+text = "back to main playlist"
 
 [node name="Volume" type="VSlider" parent="LilLine"]
 layout_mode = 1
@@ -171,14 +233,36 @@ offset_bottom = 118.0
 scale = Vector2(0.5, 0.5)
 show_percentage = false
 
+[node name="Roundifier" type="Sprite2D" parent="LilLine"]
+clip_children = 1
+position = Vector2(985, 60)
+scale = Vector2(0.168333, 0.171286)
+texture = ExtResource("3_sfoe6")
+
+[node name="Icon" type="TextureRect" parent="LilLine/Roundifier"]
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+texture = ExtResource("4_ya2pm")
+expand_mode = 1
+
+[node name="RightClickMenu" parent="." instance=ExtResource("3_cqdjq")]
+visible = false
+layout_mode = 1
+offset_left = 185.0
+offset_top = 227.0
+offset_right = -692.0
+offset_bottom = -302.0
+
 [node name="CurSongPlaying" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -796.0
+offset_left = -709.0
 offset_top = 5.0
-offset_right = -36.0
+offset_right = -95.0
 offset_bottom = 63.0
 grow_horizontal = 0
 text = "CurSongPlaying"
@@ -188,11 +272,11 @@ text_overrun_behavior = 3
 
 [node name="Logo" type="TextureRect" parent="."]
 layout_mode = 1
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 177.0
-offset_bottom = 99.0
-texture = ExtResource("3_on4b0")
+offset_left = 28.0
+offset_top = 7.0
+offset_right = 164.0
+offset_bottom = 108.0
+texture = ExtResource("6_4dp0k")
 
 [node name="VScrollBar" type="VScrollBar" parent="."]
 layout_mode = 0
@@ -201,6 +285,120 @@ offset_top = 123.0
 offset_right = 1015.0
 offset_bottom = 591.0
 max_value = 6000.0
+script = ExtResource("7_qf5vp")
+
+[node name="RenameMenu" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -634.0
+offset_top = -388.0
+offset_right = 634.0
+offset_bottom = 388.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_2hi2p")
+metadata/_edit_lock_ = true
+
+[node name="RenameMenuButSmaller" type="Panel" parent="RenameMenu"]
+visible = false
+layout_mode = 0
+offset_left = 430.0
+offset_top = 287.0
+offset_right = 787.0
+offset_bottom = 491.0
+
+[node name="NewName" type="LineEdit" parent="RenameMenu/RenameMenuButSmaller"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 58.0
+offset_right = 346.0
+offset_bottom = 89.0
+placeholder_text = "new name"
+
+[node name="Rename" type="Button" parent="RenameMenu/RenameMenuButSmaller"]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 158.0
+offset_right = 343.0
+offset_bottom = 189.0
+focus_mode = 0
+text = "rename"
+
+[node name="ChangeFolder" type="Panel" parent="RenameMenu"]
+offset_left = 430.0
+offset_top = 287.0
+offset_right = 787.0
+offset_bottom = 491.0
+script = ExtResource("9_b5t4n")
+
+[node name="ChangeFolder" type="Button" parent="RenameMenu/ChangeFolder"]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 158.0
+offset_right = 344.0
+offset_bottom = 189.0
+focus_mode = 0
+text = "change folder"
+
+[node name="Folders" type="OptionButton" parent="RenameMenu/ChangeFolder"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 69.0
+offset_right = 342.0
+offset_bottom = 103.0
+focus_mode = 0
+
+[node name="NewFolder" type="LineEdit" parent="RenameMenu/ChangeFolder"]
+visible = false
+offset_left = 11.0
+offset_top = 70.0
+offset_right = 346.0
+offset_bottom = 101.0
+placeholder_text = "change folder"
+
+[node name="CheckBox" type="CheckBox" parent="RenameMenu/ChangeFolder"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 109.0
+offset_right = 290.0
+offset_bottom = 140.0
+focus_mode = 0
+text = "type folder name instead"
+
+[node name="Cancel" type="Button" parent="RenameMenu"]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 444.0
+offset_right = 544.0
+offset_bottom = 475.0
+focus_mode = 0
+text = " cancel"
+
+[node name="Title" type="Label" parent="RenameMenu"]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 287.0
+offset_right = 787.0
+offset_bottom = 345.0
+text = "change folder of File Name :)"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+text_overrun_behavior = 4
+
+[node name="ChangeIconDialog" type="FileDialog" parent="."]
+title = "Open a File"
+size = Vector2i(700, 400)
+ok_button_text = "Open"
+dialog_text = "Change Icon"
+file_mode = 0
+access = 2
+show_hidden_files = true
 
 [node name="SongAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_sfbnh")
@@ -209,6 +407,7 @@ bus = &"Songs"
 [connection signal="button_down" from="LilLine/Play" to="." method="_on_play_button_down"]
 [connection signal="button_down" from="LilLine/Stop" to="." method="_on_stop_button_down"]
 [connection signal="button_up" from="LilLine/Refresh" to="." method="_on_refresh_button_up"]
+[connection signal="button_up" from="LilLine/Back" to="." method="_on_back_button_up"]
 [connection signal="value_changed" from="LilLine/Volume" to="." method="_on_volume_value_changed"]
 [connection signal="button_up" from="LilLine/PlusTen" to="." method="_on_plus_ten_button_up"]
 [connection signal="button_up" from="LilLine/MinusTen" to="." method="_on_minus_ten_button_up"]

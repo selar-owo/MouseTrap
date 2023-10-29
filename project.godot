@@ -10,23 +10,51 @@ config_version=5
 
 [application]
 
-config/name="MouseTrap"
+config/name="RatTrap"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/show_image=false
-config/icon="res://sprites/notebackground.png"
+config/icon="res://sprites/logos/AppIcon.png"
 
 [autoload]
 
 FindSongs="*res://scripts/find_songs.gd"
 Globals="*res://scripts/Globals.gd"
+SettingsFile="*res://scripts/settings_file.gd"
 
 [display]
 
 window/size/viewport_width=1024
 window/size/viewport_height=600
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
+
+[input]
+
+right_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(137, 14),"global_position":Vector2(141, 57),"factor":1.0,"button_index":2,"pressed":true,"double_click":true,"script":null)
+]
+}
+left_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(81, 22),"global_position":Vector2(85, 65),"factor":1.0,"button_index":1,"pressed":true,"double_click":false,"script":null)
+]
+}
+scroll_up={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(89, 16),"global_position":Vector2(93, 59),"factor":1.0,"button_index":4,"pressed":true,"double_click":false,"script":null)
+]
+}
+scroll_down={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(103, 17),"global_position":Vector2(107, 60),"factor":1.0,"button_index":5,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [rendering]
 

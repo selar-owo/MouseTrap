@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/song.gd" id="1_6sr2h"]
 [ext_resource type="Texture2D" uid="uid://bs28oppkt5vl0" path="res://sprites/rounded.png" id="2_kwr0x"]
-[ext_resource type="Texture2D" uid="uid://bg2l7vnxyxeuu" path="res://sprites/PlaceholderIcon.png" id="2_m4d7i"]
+[ext_resource type="Texture2D" uid="uid://bwt0jsvcu0mys" path="res://sprites/RatTrapIcon.png" id="3_m5ev5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kqlvo"]
 font_color = Color(0.443137, 0.443137, 0.443137, 1)
@@ -55,7 +55,9 @@ offset_left = -150.0
 offset_top = -150.0
 offset_right = 150.0
 offset_bottom = 150.0
-texture = ExtResource("2_m4d7i")
+texture = ExtResource("3_m5ev5")
 expand_mode = 1
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
